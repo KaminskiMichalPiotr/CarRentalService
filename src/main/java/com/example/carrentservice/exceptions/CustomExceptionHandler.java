@@ -43,6 +43,14 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity(error, HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
+    @ExceptionHandler(IncorrectEntityException.class)
+    public final ResponseEntity<Object> handleIncorrectEntityException(IncorrectEntityException ex, WebRequest request) {
+        List<String> details = new ArrayList<>();
+        details.add(ex.getLocalizedMessage());
+        ErrorResponse error = new ErrorResponse("Entity isn't valid", details);
+        return new ResponseEntity(error, HttpStatus.UNPROCESSABLE_ENTITY);
+    }
+
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
             MethodArgumentNotValidException ex,
@@ -56,6 +64,5 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         ErrorResponse error = new ErrorResponse("Validation Failed", details);
         return new ResponseEntity(error, HttpStatus.BAD_REQUEST);
     }
-
 
 }

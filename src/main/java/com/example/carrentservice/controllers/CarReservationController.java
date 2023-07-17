@@ -40,22 +40,47 @@ public class CarReservationController {
     @Operation(summary = "Create a car reservation")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "400", description = "Validation failed", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
+            }),
             @ApiResponse(responseCode = "422", description = "Incorrect reservation dates", content = {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
             })
     })
     public ResponseEntity<CarReservation> createReservation(@Valid @RequestBody CarReservation carReservation){
+        //TODO: check if car and client are Valid
         CarReservation reservation = carReservationService.createCarReservation(carReservation);
         return new ResponseEntity<>(reservation, HttpStatus.OK);
     }
 
     @PutMapping
+    @Operation(summary = "Update reservation", description = "Provided CarReservation must be valid with correct id")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "400", description = "Validation failed", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
+            }),
+            @ApiResponse(responseCode = "404", description = "Incorrect car reservation ID", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
+            })
+    })
     public ResponseEntity<CarReservation> updateReservation(@Valid @RequestBody CarReservation carReservation){
         CarReservation reservation = carReservationService.updateReservation(carReservation);
         return new ResponseEntity<>(reservation, HttpStatus.OK);
     }
 
     @GetMapping("/availableCars")
+    @Operation(summary = "Find available cars to rent between dates",
+            description = "Start date and end date of rent must be correct and cannot be mixed")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "400", description = "Validation failed", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
+            }),
+            @ApiResponse(responseCode = "422", description = "Incorrect reservation dates", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
+            })
+    })
     public ResponseEntity<List<Car>> findAvailableCars(@Valid @RequestBody CarReservationConfigurationDTO config){
         List<Car> availableCars = carReservationService
                 .findAvailableCarsByDate(config.getStartOfRentalTime(), config.getEndOfRentalTime());

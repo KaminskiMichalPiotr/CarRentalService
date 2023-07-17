@@ -32,6 +32,7 @@ public class Client {
     @NotNull(message = "ERROR: Email cannot be null")
     @NotBlank(message = "ERROR: Email cannot be blank")
     @Email(message = "ERROR: Invalid email address")
+    @Column(unique = true)
     private String email;
 
     @NotNull(message = "ERROR: Telephone number cannot be null")
