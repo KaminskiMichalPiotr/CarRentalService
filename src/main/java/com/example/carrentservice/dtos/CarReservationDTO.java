@@ -2,7 +2,6 @@ package com.example.carrentservice.dtos;
 
 import com.example.carrentservice.entities.CarReservation;
 import com.example.carrentservice.entities.CarReservationStatus;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,7 +14,6 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 public class CarReservationDTO {
-
 
 
     @NotNull(message = "ERROR: Car id cannot be null")

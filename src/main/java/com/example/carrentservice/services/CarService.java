@@ -33,7 +33,7 @@ public class CarService {
         }
     }
 
-    public Car findCarById(Long id){
+    public Car findCarById(Long id) {
         Optional<Car> byId = carRepository.findById(id);
         return byId.orElseThrow(() -> new IncorrectIdentifierException(
                 String.format("ERROR: Car with ID=%d doesn't exists", id)));

@@ -22,7 +22,7 @@ public class ClientService {
 
 
     public Client createClientProfile(Client client) {
-        if(clientRepository.existsByEmail(client.getEmail()))
+        if (clientRepository.existsByEmail(client.getEmail()))
             throw new IncorrectEntityException("ERROR: Email already taken");
         client.setId(null);
         clientRepository.save(client);

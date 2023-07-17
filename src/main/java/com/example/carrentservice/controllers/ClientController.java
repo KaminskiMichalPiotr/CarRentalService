@@ -29,7 +29,7 @@ public class ClientController {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
             })
     })
-    public ResponseEntity<Client> getClientById(@PathVariable Long id){
+    public ResponseEntity<Client> getClientById(@PathVariable Long id) {
         return new ResponseEntity<>(clientService.getClientById(id), HttpStatus.OK);
     }
 
@@ -44,7 +44,7 @@ public class ClientController {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
             })
     })
-    public ResponseEntity<Client> createClientProfile(@Valid @RequestBody Client client){
+    public ResponseEntity<Client> createClientProfile(@Valid @RequestBody Client client) {
         client = clientService.createClientProfile(client);
         return new ResponseEntity<>(client, HttpStatus.OK);
     }

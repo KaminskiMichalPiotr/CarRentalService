@@ -5,7 +5,6 @@ import com.example.carrentservice.entities.Car;
 import com.example.carrentservice.entities.CarReservation;
 import com.example.carrentservice.exceptions.ErrorResponse;
 import com.example.carrentservice.services.CarReservationService;
-
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -30,9 +29,9 @@ public class CarReservationController {
     @GetMapping
     @Operation(summary = "Get all car reservations")
     @ApiResponses({
-            @ApiResponse(responseCode  = "200", description  = "OK"),
+            @ApiResponse(responseCode = "200", description = "OK"),
     })
-    public List<CarReservation> getCarReservations(){
+    public List<CarReservation> getCarReservations() {
         return Collections.emptyList();
     }
 
@@ -47,7 +46,7 @@ public class CarReservationController {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
             })
     })
-    public ResponseEntity<CarReservation> createReservation(@Valid @RequestBody CarReservation carReservation){
+    public ResponseEntity<CarReservation> createReservation(@Valid @RequestBody CarReservation carReservation) {
         //TODO: check if car and client are Valid
         CarReservation reservation = carReservationService.createCarReservation(carReservation);
         return new ResponseEntity<>(reservation, HttpStatus.OK);
@@ -64,7 +63,7 @@ public class CarReservationController {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
             })
     })
-    public ResponseEntity<CarReservation> updateReservation(@Valid @RequestBody CarReservation carReservation){
+    public ResponseEntity<CarReservation> updateReservation(@Valid @RequestBody CarReservation carReservation) {
         CarReservation reservation = carReservationService.updateReservation(carReservation);
         return new ResponseEntity<>(reservation, HttpStatus.OK);
     }
@@ -81,7 +80,7 @@ public class CarReservationController {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
             })
     })
-    public ResponseEntity<List<Car>> findAvailableCars(@Valid @RequestBody CarReservationConfigurationDTO config){
+    public ResponseEntity<List<Car>> findAvailableCars(@Valid @RequestBody CarReservationConfigurationDTO config) {
         List<Car> availableCars = carReservationService
                 .findAvailableCarsByDate(config.getStartOfRentalTime(), config.getEndOfRentalTime());
         return new ResponseEntity<>(availableCars, HttpStatus.OK);

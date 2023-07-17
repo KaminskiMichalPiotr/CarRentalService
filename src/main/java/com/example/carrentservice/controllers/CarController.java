@@ -29,7 +29,7 @@ public class CarController {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
             })
     })
-    public ResponseEntity<Car> saveNewCar(@Valid @RequestBody Car car){
+    public ResponseEntity<Car> saveNewCar(@Valid @RequestBody Car car) {
         return new ResponseEntity<>(carService.saveNewCar(car), HttpStatus.OK);
     }
 
@@ -44,7 +44,7 @@ public class CarController {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
             })
     })
-    public ResponseEntity<Car> updateCar(@Valid @RequestBody Car car){
+    public ResponseEntity<Car> updateCar(@Valid @RequestBody Car car) {
         return new ResponseEntity<>(carService.updateCar(car), HttpStatus.OK);
     }
 
@@ -56,7 +56,7 @@ public class CarController {
                     @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
             })
     })
-    public ResponseEntity<Car> getCarById(@PathVariable Long id){
+    public ResponseEntity<Car> getCarById(@PathVariable Long id) {
         return new ResponseEntity<>(carService.findCarById(id), HttpStatus.OK);
     }
 
