@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-@SuppressWarnings({"unchecked","rawtypes"})
+@SuppressWarnings({"unchecked", "rawtypes"})
 @ControllerAdvice
 public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
@@ -27,14 +27,21 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-//    @ExceptionHandler(RecordNotFoundException.class)
-//    public final ResponseEntity<Object> handleUserNotFoundException(RecordNotFoundException ex, WebRequest request) {
-//        List<String> details = new ArrayList<>();
-//        details.add(ex.getLocalizedMessage());
-//        ErrorResponse error = new ErrorResponse("Record Not Found", details);
-//        return new ResponseEntity(error, HttpStatus.NOT_FOUND);
-//    }
+    @ExceptionHandler(IncorrectIdentifierException.class)
+    public final ResponseEntity<Object> handleIncorrectIdentifierException(IncorrectIdentifierException ex, WebRequest request) {
+        List<String> details = new ArrayList<>();
+        details.add(ex.getLocalizedMessage());
+        ErrorResponse error = new ErrorResponse("Identifier Error", details);
+        return new ResponseEntity(error, HttpStatus.NOT_FOUND);
+    }
 
+    @ExceptionHandler(IncorrectReservationDateException.class)
+    public final ResponseEntity<Object> handleIncorrectReservationDateException(IncorrectReservationDateException ex, WebRequest request) {
+        List<String> details = new ArrayList<>();
+        details.add(ex.getLocalizedMessage());
+        ErrorResponse error = new ErrorResponse("Reservation dates Error", details);
+        return new ResponseEntity(error, HttpStatus.UNPROCESSABLE_ENTITY);
+    }
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
@@ -43,7 +50,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
             HttpStatusCode status,
             WebRequest request) {
         List<String> details = new ArrayList<>();
-        for(ObjectError error : ex.getBindingResult().getAllErrors()) {
+        for (ObjectError error : ex.getBindingResult().getAllErrors()) {
             details.add(error.getDefaultMessage());
         }
         ErrorResponse error = new ErrorResponse("Validation Failed", details);

@@ -23,6 +23,5 @@ public class ClientService {
         client.setId(null);
         clientRepository.save(client);
         return client;
-
     }
 }

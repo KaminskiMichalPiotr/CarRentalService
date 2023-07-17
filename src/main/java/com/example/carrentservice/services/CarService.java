@@ -17,7 +17,6 @@ public class CarService {
 
     public Car saveNewCar(Car car) {
         car.setId(null);
-
         return carRepository.save(car);
     }
 
@@ -39,7 +38,6 @@ public class CarService {
         return byId.orElseThrow(() -> new IncorrectIdentifierException(
                 String.format("ERROR: Car with ID=%d doesn't exists", id)));
     }
-
 
 
 }
