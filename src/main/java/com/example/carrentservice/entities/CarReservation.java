@@ -1,7 +1,5 @@
-package com.example.carrentservice.reservation;
+package com.example.carrentservice.entities;
 
-import com.example.carrentservice.car.Car;
-import com.example.carrentservice.client.Client;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -25,16 +23,18 @@ public class CarReservation {
 
     @ManyToOne
     @JoinColumn(name = "car_ID")
+    @NotNull(message = "ERROR: Car cannot be null")
     private Car car;
 
     @ManyToOne
     @JoinColumn(name = "client_id")
+    @NotNull(message = "ERROR: Client cannot be null")
     private Client client;
 
-    @NotNull(message = "Invalid start of rental time: null")
+    @NotNull(message = "ERROR: Invalid start of rental time: null")
     private LocalDate startOfRentalTime;
 
-    @NotNull(message = "Invalid end of rental time: null")
+    @NotNull(message = "ERROR: Invalid end of rental time: null")
     private LocalDate endOfRentalTime;
 
     private CarReservationStatus carReservationStatus;

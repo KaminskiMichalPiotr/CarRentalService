@@ -1,5 +1,6 @@
-package com.example.carrentservice.car;
+package com.example.carrentservice.repositories;
 
+import com.example.carrentservice.entities.Car;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

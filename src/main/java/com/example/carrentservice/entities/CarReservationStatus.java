@@ -1,4 +1,4 @@
-package com.example.carrentservice.reservation;
+package com.example.carrentservice.entities;
 
 public enum CarReservationStatus {
 

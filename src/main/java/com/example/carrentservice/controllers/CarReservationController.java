@@ -1,5 +1,9 @@
-package com.example.carrentservice.reservation;
+package com.example.carrentservice.controllers;
 
+import com.example.carrentservice.dtos.CarReservationConfigurationDTO;
+import com.example.carrentservice.entities.Car;
+import com.example.carrentservice.entities.CarReservation;
+import com.example.carrentservice.services.CarReservationService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -26,4 +30,13 @@ public class CarReservationController {
         CarReservation reservation = carReservationService.createCarReservation(carReservation);
         return new ResponseEntity<>(reservation, HttpStatus.OK);
     }
+
+    @GetMapping("/availableCars")
+    public ResponseEntity<List<Car>> findAvailableCars(@Valid @RequestBody CarReservationConfigurationDTO config){
+        List<Car> availableCars = carReservationService
+                .findAvailableCarsByDate(config.getStartOfRentalTime(), config.getEndOfRentalTime());
+        return new ResponseEntity<>(availableCars, HttpStatus.OK);
+    }
+
+
 }
