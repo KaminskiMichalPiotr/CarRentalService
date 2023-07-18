@@ -31,8 +31,8 @@ public class CarReservationController {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK"),
     })
-    public List<CarReservation> getCarReservations() {
-        return Collections.emptyList();
+    public ResponseEntity<List<CarReservation>> getCarReservations() {
+        return new ResponseEntity<>(carReservationService.getAllReservations(), HttpStatus.OK);
     }
 
     @PostMapping

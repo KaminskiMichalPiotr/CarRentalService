@@ -1,10 +1,13 @@
 package com.example.carrentservice.repositories;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 class CarRepositoryTest {
 
+    @Test
+    void test() {
 
+    }
 
 
 }

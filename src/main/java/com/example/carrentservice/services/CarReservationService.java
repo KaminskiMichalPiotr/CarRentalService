@@ -79,4 +79,8 @@ public class CarReservationService {
             return carReservationRepository.save(carReservation);
         }
     }
+
+    public List<CarReservation> getAllReservations() {
+        return carReservationRepository.findAll();
+    }
 }
