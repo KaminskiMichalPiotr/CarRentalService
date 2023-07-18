@@ -50,7 +50,7 @@ public class CarReservationService {
 
 
     public List<Car> findAvailableCarsByDate(LocalDate start, LocalDate end) {
-        if (start.isBefore(end))
+        if (start.isAfter(end))
             throw new IncorrectReservationDateException("ERROR: Incorrect start and end day");
         List<Car> cars = carRepository.findAll();
         List<Car> bookedCarsByStartDate = carReservationRepository
@@ -78,5 +78,9 @@ public class CarReservationService {
                             String.format("ERROR: Car with ID=%d doesn't exists", carReservation.getId())));
             return carReservationRepository.save(carReservation);
         }
+    }
+
+    public List<CarReservation> getAllReservations() {
+        return carReservationRepository.findAll();
     }
 }

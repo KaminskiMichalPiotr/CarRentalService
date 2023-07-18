@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 public class CarReservation {
 
     @Id
-    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @ManyToOne
@@ -41,4 +41,13 @@ public class CarReservation {
 
     private LocalDateTime createdAt;
 
+
+    public CarReservation(Car car, Client client, LocalDate startOfRentalTime, LocalDate endOfRentalTime, CarReservationStatus carReservationStatus, LocalDateTime createdAt) {
+        this.car = car;
+        this.client = client;
+        this.startOfRentalTime = startOfRentalTime;
+        this.endOfRentalTime = endOfRentalTime;
+        this.carReservationStatus = carReservationStatus;
+        this.createdAt = createdAt;
+    }
 }

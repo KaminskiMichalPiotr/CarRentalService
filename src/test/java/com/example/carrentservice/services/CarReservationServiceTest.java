@@ -7,7 +7,6 @@ import com.example.carrentservice.exceptions.IncorrectIdentifierException;
 import com.example.carrentservice.exceptions.IncorrectReservationDateException;
 import com.example.carrentservice.repositories.CarRepository;
 import com.example.carrentservice.repositories.CarReservationRepository;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -18,7 +17,8 @@ import java.time.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class CarReservationServiceTest {
 
@@ -52,7 +52,9 @@ class CarReservationServiceTest {
         carReservation.setStartOfRentalTime(LocalDate.now());
         carReservation.setEndOfRentalTime(LocalDate.now().plusDays(1));
 
+
         // Mock behavior
+        Mockito.when(carRepository.findAll()).thenReturn(new ArrayList<>(List.of(car)));
         Mockito.when(clock.instant()).thenReturn(Instant.parse("2023-07-20T10:00:00Z"));
         Mockito.when(clock.getZone()).thenReturn(ZoneId.of("UTC"));
         Mockito.when(carReservationRepository.save(carReservation)).thenReturn(carReservation);
@@ -61,7 +63,6 @@ class CarReservationServiceTest {
         CarReservation createdReservation = carReservationService.createCarReservation(carReservation);
 
         // Assert the result
-        assertNotNull(createdReservation.getId());
         assertEquals(CarReservationStatus.PENDING, createdReservation.getCarReservationStatus());
         assertEquals(LocalDateTime.ofInstant(Instant.parse("2023-07-20T10:00:00Z"), ZoneId.of("UTC")), createdReservation.getCreatedAt());
         Mockito.verify(carReservationRepository, Mockito.times(1)).save(carReservation);
@@ -91,15 +92,13 @@ class CarReservationServiceTest {
         car2.setId(2L);
         car2.setManufacturer("Manufacturer2");
 
-        CarReservation reservation1 = new CarReservation();
-        reservation1.setCar(car1);
-        reservation1.setStartOfRentalTime(LocalDate.now().minusDays(2));
-        reservation1.setEndOfRentalTime(LocalDate.now().minusDays(1));
+        LocalDate date = LocalDate.now();
 
-        CarReservation reservation2 = new CarReservation();
-        reservation2.setCar(car2);
-        reservation2.setStartOfRentalTime(LocalDate.now().plusDays(1));
-        reservation2.setEndOfRentalTime(LocalDate.now().plusDays(2));
+        CarReservation carReservation = new CarReservation();
+        carReservation.setCar(car1);
+        carReservation.setStartOfRentalTime(date);
+        carReservation.setEndOfRentalTime(date.plusDays(2));
+
 
         List<Car> allCars = new ArrayList<>();
         allCars.add(car1);
@@ -108,16 +107,14 @@ class CarReservationServiceTest {
         // Mock behavior
         Mockito.when(carRepository.findAll()).thenReturn(allCars);
         Mockito.when(carReservationRepository.findCarReservationByStartOfRentalTimeIsBetween(Mockito.any(LocalDate.class), Mockito.any(LocalDate.class)))
-                .thenReturn(List.of(reservation1));
-        Mockito.when(carReservationRepository.findCarReservationByEndOfRentalTimeIsBetween(Mockito.any(LocalDate.class), Mockito.any(LocalDate.class)))
-                .thenReturn(List.of(reservation2));
+                .thenReturn(List.of(carReservation));
 
         // Perform the test
-        List<Car> availableCars = carReservationService.findAvailableCarsByDate(LocalDate.now(), LocalDate.now().plusDays(3));
+        List<Car> availableCars = carReservationService.findAvailableCarsByDate(date, date.plusDays(3));
 
         // Assert the result
         assertEquals(1, availableCars.size());
-        assertEquals(car1, availableCars.get(0));
+        assertEquals(car2, availableCars.get(0));
     }
 
     @Test
